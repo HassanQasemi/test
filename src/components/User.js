@@ -62,7 +62,6 @@ function User() {
                     handleEdit,
                     handleSearch,
                     searchQuery,
-                    handleEdit,
                     handleSort
                 }
             }
