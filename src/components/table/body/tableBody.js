@@ -1,5 +1,5 @@
 import React from 'react';
-import UserContext from '../../context/userContext'
+import UserContext from '../../../context/userContext'
 import {ToastContainer , toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -11,7 +11,7 @@ function TableBody() {
                 <tbody>
                     {UserContext.users.map(user =>
                         <tr key={user.id}>
-                            <td><img src={user.avatar} /></td>
+                            <td><img src={user.avatar} alt="user avatar" /></td>
                             <td >{user.first_name}</td>
                             <td>{user.last_name}</td>
                             <td>{user.email}</td>

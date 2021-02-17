@@ -1,5 +1,5 @@
 import React from 'react';
-import UserContext from '../../../context/userContext'
+import UserContext from '../../../../context/userContext'
 
 function Search() {
     return (
@@ -12,8 +12,6 @@ function Search() {
                   placeholder="Search..."
                   value={UserContext.searchQuery.first_name}
                   onChange={e => UserContext.handleSearch(e.currentTarget.value)}
-                  
-          
                 />}
         </UserContext.Consumer>
     )
