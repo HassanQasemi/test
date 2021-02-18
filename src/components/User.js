@@ -14,21 +14,16 @@ function User() {
     useEffect(()=>{
         async function getUsers(){
             const result = await axios.get(usersApi);
-            setUsersFromApi(result.data.data)}
-            getUsers()
+            setUsersFromApi(result.data.data)
+            setUsers(result.data.data)
+        }
+        getUsers()
     },[]);
 
     useEffect(()=>{
-        async function getUsers(){
-            const result = await axios.get(usersApi);
-            setUsers(result.data.data)}
-            getUsers()
-    },[]);
-        
-    useEffect(()=>{
         let results = usersFromApi.filter(user => 
-            user.first_name.toString().toLowerCase().includes(searchTerm) );
-            setUsers(results);
+        user.first_name.toString().toLowerCase().includes(searchTerm));
+        setUsers(results);
     },[searchTerm]);
       
     const handleSearch = query => {
