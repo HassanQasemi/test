@@ -4,15 +4,20 @@ import Table from './table/table';
 import UserContext from '../context/userContext';
 import _ from 'lodash';
 
-
 const usersApi= "https://reqres.in/api/users?page=1";
 function User() {
-    const [users , setUsers] = useState([]);
+    const [usersFromApi , setUsersFromApi] = useState([]);
     const [sortColumn , setSortColumn] = useState({column: "title" , order: "asc"})
     const [searchTerm ,setSearchTerm] = useState("");
-    const [searchResults , setSearchResults] = useState([]);
+    const [users , setUsers] = useState([]);
     
-    
+    useEffect(()=>{
+        async function getUsers(){
+            const result = await axios.get(usersApi);
+            setUsersFromApi(result.data.data)}
+            getUsers()
+    },[]);
+
     useEffect(()=>{
         async function getUsers(){
             const result = await axios.get(usersApi);
@@ -21,12 +26,11 @@ function User() {
     },[]);
         
     useEffect(()=>{
-        let results = users.filter(user => 
+        let results = usersFromApi.filter(user => 
             user.first_name.toString().toLowerCase().includes(searchTerm) );
             setUsers(results);
     },[searchTerm]);
-    
-    
+      
     const handleSearch = query => {
         
         setSearchTerm(query)
@@ -42,9 +46,11 @@ function User() {
             setUsers(usersOrginal)
         }   
     }
+
     const handleEdit = (userEdit) => {
         console.log(userEdit)
     }
+
     const handleSort = column => { 
         if(sortColumn.column === column){
             sortColumn.order = (sortColumn.order === 'asc') ? 'desc' : 'asc';
@@ -55,10 +61,6 @@ function User() {
         setSortColumn({column, order:"asc"})
         setUsers(_.orderBy(users , [sortColumn.column],[sortColumn.order]),[])
     }
-
-    
-   
-    
     
     return (
         <UserContext.Provider 
