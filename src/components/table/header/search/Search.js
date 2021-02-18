@@ -2,9 +2,8 @@ import React from 'react';
 import UserContext from '../../../../context/userContext'
 
 function Search() {
-    const changeInputHandler = (e) => {
-        UserContext.handleSearch(e?.currentTarget?.value)
-    }
+    
+     
 
     return (
         <UserContext.Consumer>
@@ -14,8 +13,8 @@ function Search() {
                   name="query"
                   className="form-control"
                   placeholder="Search..."
-                  value={UserContext.searchQuery?.first_name}
-                  onChange={e => changeInputHandler(e)}
+                  value={UserContext.searchTerm}
+                  onChange={e => UserContext.handleSearch(e.target.value)}
                 />}
         </UserContext.Consumer>
     )

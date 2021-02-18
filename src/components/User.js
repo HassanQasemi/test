@@ -8,15 +8,30 @@ import _ from 'lodash';
 const usersApi= "https://reqres.in/api/users?page=1";
 function User() {
     const [users , setUsers] = useState([]);
-    const [searchQuery,setSearchQuery] = useState("");
     const [sortColumn , setSortColumn] = useState({column: "title" , order: "asc"})
+    const [searchTerm ,setSearchTerm] = useState("");
+    const [searchResults , setSearchResults] = useState([]);
+    
     
     useEffect(()=>{
         async function getUsers(){
             const result = await axios.get(usersApi);
             setUsers(result.data.data)}
-        getUsers()
+            getUsers()
     },[]);
+        
+    useEffect(()=>{
+        let results = users.filter(user => 
+            user.first_name.toString().toLowerCase().includes(searchTerm) );
+            setUsers(results);
+    },[searchTerm]);
+    
+    
+    const handleSearch = query => {
+        
+        setSearchTerm(query)
+        
+    };
     
     const handleDelete = async userDeleted =>{
         const usersOrginal = [...users]
@@ -40,17 +55,9 @@ function User() {
         setSortColumn({column, order:"asc"})
         setUsers(_.orderBy(users , [sortColumn.column],[sortColumn.order]),[])
     }
-    const handleSearch = query => {
-        console.log(query)
-        setSearchQuery({ searchQuery: query })
-    };
+
     
-    if (searchQuery)
-        setUsers(users.filter(user =>
-        user.first_name.toLowerCase().startsWith(searchQuery.toLowerCase()))
-        
-    );
-    
+   
     
     
     return (
@@ -61,8 +68,9 @@ function User() {
                     handleDelete,
                     handleEdit,
                     handleSearch,
-                    searchQuery,
-                    handleSort
+                    searchTerm,
+                    handleSort,
+                    
                 }
             }
         >
